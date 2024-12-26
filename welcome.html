@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="content">
+        <h1>Carregando...</h1>
+    </div>
+</body>
+<script>
+    const checkUser = async () => {
+        const response = await fetch('http://127.0.0.1:5000/check-user', {
+            method: 'GET',
+             credentials: 'include'
+        });
+        console.log('hello')
+
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+            document.getElementById('content').innerHTML = `
+                <h1>Bem-vindo, ${data.user}!</h1>
+                <p>Seu ID é: ${data.userID}</p>
+                <button onclick="logout()">Logout</button>`
+        } else {
+            window.location.href = './index.html';
+        }
+    }
+    const logout = async () => {
+        const response = await fetch('http://127.0.0.1:5000/logout', {
+            method: 'GET',
+            credentials: 'include'
+        });
+        window.location.href = './index.html'; 
+    }
+
+    checkUser();
+</script>
+</html>
